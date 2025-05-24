@@ -1,20 +1,65 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
+    <ion-title> Productos </ion-title>
   </ion-toolbar>
 </ion-header>
+<ion-content>
+  <ion-list *ngIf="loaded; else loadingSkeleton">
+    <ion-card
+      *ngFor="let item of products; let i = index"
+      class="product-card"
+      [style.animationDelay]="(i * 100) + 'ms'"
+    >
+      <ion-item lines="none" class="product-item">
+        <ion-thumbnail slot="start" class="product-image">
+          <ion-img [src]="item.image" [alt]="item.title"></ion-img>
+        </ion-thumbnail>
+        <ion-label>
+          <h2 class="product-title">{{ item.title }}</h2>
+          <div class="product-rating">
+            <ion-icon
+              name="star"
+              *ngFor="let s of [1,2,3,4,5]; let i = index"
+              [color]="i < item.rating?.rate - .5 ? 'warning' : 'medium'"
+            ></ion-icon>
+            <span class="rainting-value">({{ item.rating?.rate || 0 }})</span>
+          </div>
+          <p class="product-price">$ {{ item.price }}</p>
+        </ion-label>
+      </ion-item>
+    </ion-card>
+  </ion-list>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
+  <ng-template #loadingSkeleton>
+    <ion-list>
+      <ion-card *ngFor="let n of [1,2,3,4,5]" class="product-card">
+        <ion-item lines="none" class="product-item">
+          <ion-thumbnail slot="start" class="product-image">
+            <ion-skeleton-text [animated]="true"></ion-skeleton-text>
+          </ion-thumbnail>
+          <ion-label>
+            <h2>
+              <ion-skeleton-text
+                [animated]="true"
+                style="width: 80%"
+              ></ion-skeleton-text>
+            </h2>
+            <div style="display: flex; gap: 4px; margin: 6px 0">
+              <ion-skeleton-text
+                *ngFor="let r of [1,2,3,4,5]"
+                [animated]="true"
+                style="width: 12px; height: 12px; border-radius: 50%"
+              ></ion-skeleton-text>
+            </div>
+            <p>
+              <ion-skeleton-text
+                [animated]="true"
+                style="width: 40%"
+              ></ion-skeleton-text>
+            </p>
+          </ion-label>
+        </ion-item>
+      </ion-card>
+    </ion-list>
+  </ng-template>
 </ion-content>
