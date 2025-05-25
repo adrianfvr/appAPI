@@ -13,4 +13,8 @@ export class ProductsService {
   getProducts(): Observable<any> {
     return this.http.get(<any>this.apiUrl);
   }
+
+  getCategories(): Observable<string[]> {
+    return this.http.get<string[]>(this.apiUrl + '/categories');
+  }
 }

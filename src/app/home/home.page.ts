@@ -11,6 +11,10 @@ import { LoadingController } from '@ionic/angular';
 export class HomePage implements OnInit {
   loaded: boolean = false;
   products: any[] = [];
+  filteredProducts: any[] = [];
+  searchTerm: string = '';
+  selectedCategory: string = '';
+  categories: string[] = [];
   constructor(
     private productService: ProductsService,
     private loadingController: LoadingController
@@ -18,6 +22,7 @@ export class HomePage implements OnInit {
 
   ngOnInit() {
     this.loadingProducts();
+    this.getCategories();
   }
 
   async loadingProducts() {
@@ -27,9 +32,27 @@ export class HomePage implements OnInit {
     loading.present();
     this.productService.getProducts().subscribe((data) => {
       this.products = data;
+      this.filteredProducts = data;
       console.log(this.products);
       this.loaded = true;
       loading.dismiss();
+    });
+  }
+
+  getCategories() {
+    this.productService.getCategories().subscribe((data) => {
+      this.categories = data;
+    });
+  }
+
+  filterProducts() {
+    this.filteredProducts = this.products.filter((product) => {
+      return (
+        (this.selectedCategory === '' ||
+          product.category === this.selectedCategory) &&
+        (this.searchTerm === '' ||
+          product.title.toLowerCase().includes(this.searchTerm.toLowerCase()))
+      );
     });
   }
 }

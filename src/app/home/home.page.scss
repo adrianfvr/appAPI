@@ -13,7 +13,7 @@
   margin: 8px;
   border-radius: 12px;
   --background: var(--ion-background-color);
-  box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
   animation: fadeInUp 0.4s ease forwards;
 }
 
@@ -40,7 +40,7 @@ ion-img {
   font-weight: 600;
   margin-bottom: 4px;
   color: var(--ion-text-color);
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .product-rating {
@@ -63,4 +63,30 @@ ion-img {
   font-size: 16px;
   font-weight: bold;
   color: var(--ion-color-success);
+}
+
+.category-item {
+  --background: var(--ion-background-color);
+  --padding-start: 12px;
+  --padding-end: 12px;
+  border-radius: 10px;
+}
+
+.category-select {
+  --background: var(--ion-background-color);
+  --placeholder-color: var(--ion-text-color);
+}
+.category-title {
+  font-family: "Poppins", sans-serif;
+}
+
+.no-results {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 70vh;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--ion-text-color);
 }

@@ -1,33 +1,53 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title> Productos </ion-title>
+    <ion-searchbar
+      [(ngModel)]="searchTerm"
+      (ionInput)="filterProducts()"
+    ></ion-searchbar>
   </ion-toolbar>
 </ion-header>
+
+<ion-item class="category-item">
+  <ion-label class="category-title">Category</ion-label>
+  <ion-select
+    class="category-select"
+    [(ngModel)]="selectedCategory"
+    (ionChange)="filterProducts()"
+  >
+    <ion-select-option value="">All</ion-select-option>
+    <ion-select-option *ngFor="let category of categories" [value]="category">
+      {{ category }}
+    </ion-select-option>
+  </ion-select>
+</ion-item>
+
 <ion-content>
   <ion-list *ngIf="loaded; else loadingSkeleton">
-    <ion-card
-      *ngFor="let item of products; let i = index"
-      class="product-card"
-      [style.animationDelay]="(i * 100) + 'ms'"
-    >
-      <ion-item lines="none" class="product-item">
-        <ion-thumbnail slot="start" class="product-image">
-          <ion-img [src]="item.image" [alt]="item.title"></ion-img>
-        </ion-thumbnail>
-        <ion-label>
-          <h2 class="product-title">{{ item.title }}</h2>
-          <div class="product-rating">
-            <ion-icon
-              name="star"
-              *ngFor="let s of [1,2,3,4,5]; let i = index"
-              [color]="i < item.rating?.rate - .5 ? 'warning' : 'medium'"
-            ></ion-icon>
-            <span class="rainting-value">({{ item.rating?.rate || 0 }})</span>
-          </div>
-          <p class="product-price">$ {{ item.price }}</p>
-        </ion-label>
-      </ion-item>
-    </ion-card>
+    <ng-container *ngIf="filteredProducts.length > 0; else noResultsTemplate">
+      <ion-card
+        *ngFor="let item of filteredProducts; let i = index"
+        class="product-card"
+        [style.animationDelay]="(i * 100) + 'ms'"
+      >
+        <ion-item lines="none" class="product-item">
+          <ion-thumbnail slot="start" class="product-image">
+            <ion-img [src]="item.image" [alt]="item.title"></ion-img>
+          </ion-thumbnail>
+          <ion-label>
+            <h2 class="product-title">{{ item.title }}</h2>
+            <div class="product-rating">
+              <ion-icon
+                name="star"
+                *ngFor="let s of [1,2,3,4,5]; let i = index"
+                [color]="i < item.rating?.rate - .5 ? 'warning' : 'medium'"
+              ></ion-icon>
+              <span class="rainting-value">({{ item.rating?.rate || 0 }})</span>
+            </div>
+            <p class="product-price">$ {{ item.price }}</p>
+          </ion-label>
+        </ion-item>
+      </ion-card>
+    </ng-container>
   </ion-list>
 
   <ng-template #loadingSkeleton>
@@ -61,5 +81,11 @@
         </ion-item>
       </ion-card>
     </ion-list>
+  </ng-template>
+
+  <ng-template #noResultsTemplate>
+    <div class="no-results">
+      <p>No results found</p>
+    </div>
   </ng-template>
 </ion-content>
